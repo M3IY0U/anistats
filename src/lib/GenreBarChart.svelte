@@ -21,7 +21,6 @@
             .entries(),
         ].sort((a, b) => b[1] - a[1])
       );
-
     }
     data = {
       labels: Array.from(occurrences.keys()),
@@ -42,15 +41,25 @@
   onMount(() => {
     updateChart();
   });
-
 </script>
 
 {#if data}
-  <Bar
-    bind:this={bc}
-    {data}
-    width={1000}
-    height={500}
-    options={{ responsive: true }}
-  />
+  <div class="container">
+    <span>Genre Occurrences</span>
+    <Bar
+      bind:this={bc}
+      {data}
+      width={1000}
+      height={500}
+      options={{ responsive: true }}
+    />
+  </div>
 {/if}
+
+<style>
+  .container {
+    text-align: center;
+    flex-basis: 100%;
+    overflow: hidden;
+  }
+</style>

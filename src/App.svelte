@@ -1,44 +1,25 @@
 <script lang="ts">
-  import { request } from "graphql-request";
-  import { AnimeEntry } from "./lib/AnimeEntry";
   import { Queries } from "./lib/queries";
   import GenreBarChart from "./lib/GenreBarChart.svelte";
-  import EpisodePieChart from "./lib/EpisodePieChart.svelte";
+  import EpisodeScatterChart from "./lib/EpisodeScatterChart.svelte";
+  import type { AnimeEntry } from "./lib/AnimeEntry";
+  import { Jellyfish } from "svelte-loading-spinners"
+
   let username = "Meiyou";
   let entries: Array<AnimeEntry> = [];
   let gbc: GenreBarChart;
-  let epc: EpisodePieChart;
-
+  let epc: EpisodeScatterChart;
 
   async function doRequest(username: string) {
-    entries = [];
-    let result = await request(
-      Queries.apiUrl,
-      Queries.retrieveList.replace("$id", username)
-    );
-    for (const list of result.MediaListCollection.lists) {
-      if(list.name != "Completed" && list.name != "Watching") continue;
-      list.entries.forEach((entry: any) => {
-        entry = entry.media;
-        entries.push(
-          new AnimeEntry(
-            list.name,
-            entry.title.romaji,
-            entry.coverImage.extraLarge,
-            entry.siteUrl,
-            entry.genres,
-            entry.episodes
-          )
-        );
-      });
-    }
-    console.log(entries);
-    entries = entries;
+    document.getElementById("loading-spinner").setAttribute("style", "display: block"); 
+    
+    entries = await Queries.fetchData(username);
+
     if (gbc != undefined) gbc.updateChart();
     if (epc != undefined) epc.updateChart();
-
   }
 </script>
+
 <h1>Anilist Stats Thingy</h1>
 <form class="name-submit" on:submit|preventDefault={() => doRequest(username)}>
   <label for="username-input">Username</label>
@@ -51,19 +32,38 @@
   <input type="button" value="Start" on:click={() => doRequest(username)} /><br
   />
 </form>
-<div id="entries-container" class="entries-container">
-
-  {#if entries.length > 0}
-    <GenreBarChart bind:this={gbc} entries={entries} />
-    <EpisodePieChart  bind:this={epc} entries={entries} />
-  {/if}
+{#if entries.length > 0}
+  <div class="grid-container">
+    <div class="grid-item">
+      <GenreBarChart bind:this={gbc} {entries} />
+    </div>
+    <div class="grid-item">
+      <EpisodeScatterChart bind:this={epc} {entries} />
+    </div>
+  </div>
+{:else}
+<div id="loading-spinner" style="display: none;">
+  <Jellyfish size="200" color="#02a9ff" unit="px" duration="2s"/>
 </div>
+{/if}
 
 <style>
   h1 {
     font-size: 3rem;
   }
-  .entries-container {
-   
+  .grid-container {
+    display: grid;
+    grid-template-columns: auto auto;
+    background-color: #454545;
+    gap: 15px;
+  }
+
+  .grid-item {
+    background-color: #393939;
+  }
+
+  #loading-spinner {
+    position: absolute;
+    top: 30%;
   }
 </style>
