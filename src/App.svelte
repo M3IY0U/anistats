@@ -11,10 +11,12 @@
   let epc: EpisodeScatterChart;
 
   async function doRequest(username: string) {
-    document.getElementById("loading-spinner").setAttribute("style", "display: block"); 
-    
+    entries = [];
+    document.getElementById("loading-spinner").setAttribute("style", "opacity: 100%"); 
+
     entries = await Queries.fetchData(username);
 
+    document.getElementById("loading-spinner").setAttribute("style", "opacity: 0%"); 
     if (gbc != undefined) gbc.updateChart();
     if (epc != undefined) epc.updateChart();
   }
@@ -32,6 +34,10 @@
   <input type="button" value="Start" on:click={() => doRequest(username)} /><br
   />
 </form>
+
+<div id="loading-spinner" style="opacity: 0%;">
+  <Jellyfish size="200" color="#02a9ff" unit="px" duration="2s"/>
+</div>
 {#if entries.length > 0}
   <div class="grid-container">
     <div class="grid-item">
@@ -41,10 +47,6 @@
       <EpisodeScatterChart bind:this={epc} {entries} />
     </div>
   </div>
-{:else}
-<div id="loading-spinner" style="display: none;">
-  <Jellyfish size="200" color="#02a9ff" unit="px" duration="2s"/>
-</div>
 {/if}
 
 <style>
