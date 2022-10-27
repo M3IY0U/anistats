@@ -1,13 +1,13 @@
 import { gql } from "graphql-request";
 import { request } from "graphql-request";
-import {AnimeEntry } from "./AnimeEntry.ts";
+import { AnimeEntry } from "./AnimeEntry";
 
 export class Queries {
   public static async fetchData(username: string) {
     let entries = [];
     let result = await request(
-      Queries.apiUrl,
-      Queries.retrieveList.replace("$id", username)
+      this.apiUrl,
+      this.retrieveList.replace("$id", username)
     );
     for (const list of result.MediaListCollection.lists) {
       if (list.name != "Completed" && list.name != "Watching") continue;
@@ -25,7 +25,7 @@ export class Queries {
         );
       });
     }
-	return entries;
+    return entries;
   }
 
   public static readonly apiUrl = "https://graphql.anilist.co";

@@ -51,7 +51,11 @@
       {data}
       width={1000}
       height={500}
-      options={{ responsive: true }}
+      options={{ plugins: {
+        legend: {
+          display: false,
+        },
+      },responsive: true }}
     />
   </div>
 {/if}
