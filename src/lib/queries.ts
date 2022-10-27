@@ -20,7 +20,9 @@ export class Queries {
             entry.coverImage.extraLarge,
             entry.siteUrl,
             entry.genres,
-            entry.episodes
+            entry.episodes,
+            entry.meanScore,
+            entry.averageScore
           )
         );
       });
@@ -46,6 +48,8 @@ export class Queries {
               }
               siteUrl
               episodes
+              meanScore
+              averageScore
             }
           }
         }

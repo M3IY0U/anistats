@@ -25,7 +25,7 @@
         ].sort((a, b) => b[1] - a[1])
       );
     }
-    console.log(Array.from(episodes.entries(), ([k, v]) => [{ x: k, y: v }]));
+    
     data = {
       datasets: [
         {
@@ -48,7 +48,7 @@
     <Scatter
       bind:this={pc}
       {data}
-      width={450}
+      width={650}
       height={450}
       options={{
         elements: {
@@ -86,7 +86,5 @@
 <style>
   .container {
     text-align: center;
-    flex-basis: 100%;
-    overflow: hidden;
   }
 </style>

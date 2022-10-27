@@ -63,7 +63,5 @@
 <style>
   .container {
     text-align: center;
-    flex-basis: 100%;
-    overflow: hidden;
   }
 </style>

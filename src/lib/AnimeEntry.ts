@@ -5,6 +5,8 @@ export class AnimeEntry {
     url: string;
     genres: string[];
     episodes: Number
+    meanScore: Number
+    avgScore: Number
 
   constructor(
     status: string, 
@@ -12,7 +14,9 @@ export class AnimeEntry {
     image: string, 
     url: string, 
     genres: string[],
-    episodes: Number
+    episodes: Number,
+    meanScore: Number,
+    avgScore: Number
 ) {
     this.status = status
     this.title = title
@@ -20,6 +24,8 @@ export class AnimeEntry {
     this.url = url
     this.genres = genres
     this.episodes = episodes
+    this.meanScore = meanScore
+    this.avgScore = avgScore
   }
 
 }

@@ -4,11 +4,13 @@
   import EpisodeScatterChart from "./lib/EpisodeScatterChart.svelte";
   import type { AnimeEntry } from "./lib/AnimeEntry";
   import { Jellyfish } from "svelte-loading-spinners";
+  import RatingBarChart from "./lib/RatingBarChart.svelte";
 
-  let username = "";
+  let username = "Meiyou";
   let entries: Array<AnimeEntry> = [];
   let gbc: GenreBarChart;
   let epc: EpisodeScatterChart;
+  let rrc: RatingBarChart;
 
   async function doRequest(username: string) {
     entries = [];
@@ -53,6 +55,10 @@
     <div class="grid-item">
       <EpisodeScatterChart bind:this={epc} {entries} />
     </div>
+    
+    <div class="grid-item">
+      <RatingBarChart bind:this={rrc} {entries} />
+    </div>
   </div>
 {/if}
 
@@ -95,6 +101,8 @@
   }
 
   .grid-container {
+    width: 100%;
+    margin: 15px;
     display: grid;
     grid-template-columns: auto auto;
     background-color: #454545;
