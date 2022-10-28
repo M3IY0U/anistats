@@ -21,7 +21,6 @@ export class Queries {
             entry.siteUrl,
             entry.genres,
             entry.episodes,
-            entry.meanScore,
             entry.averageScore
           )
         );
@@ -48,7 +47,6 @@ export class Queries {
               }
               siteUrl
               episodes
-              meanScore
               averageScore
             }
           }

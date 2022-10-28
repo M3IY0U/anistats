@@ -3,11 +3,11 @@
   import { Chart, registerables } from "chart.js";
   import type { AnimeEntry } from "./AnimeEntry";
   import { onMount } from "svelte";
-  import { groupBy } from "./Util";
+  import { range } from "./Util";
   Chart.register(...registerables);
 
   export let entries: Array<AnimeEntry>;
-  let ratings: any;
+
   let data: any;
   let rc: Bar;
 
@@ -18,36 +18,25 @@
   export const updateChart = () => {
     if (entries.length < 1) return;
 
-    let meanScores = entries.map((x) => x.meanScore).sort();
-    let avgScores = entries.map((x) => x.avgScore).sort();
+    console.log(entries);
+    let min = Math.min(...entries.map(x => x.averageScore))
+    let max = Math.max(...entries.map(x => x.averageScore))
 
-    let groupedMean = groupBy(meanScores, (x: number) => Math.floor(x / 10));
-    let groupedAvg = groupBy(avgScores, (x: number) => Math.floor(x / 10));
+    let x = new Map(range(min,max).map(i => [i, 0]))
 
-    let resMean = Array(10).fill(0);
-    let resAvg = Array(10).fill(0);
-
-    groupedMean.forEach((x: Array<Number>) => {
-      resMean[x[0].toString()[0]] = x.length;
-    });
-    groupedAvg.forEach((x: Array<Number>) => {
-      resAvg[x[0].toString()[0]] = x.length;
-    });
+    console.log(x)
+    for (const entry of entries) {
+      x.set(entry.averageScore, x.get(entry.averageScore) + 1);
+    }
+      console.log(x)
 
     data = {
-      labels: [...Array(10).keys()],
+      labels: range(min, max),
       datasets: [
         {
-          label: "Mean Score",
-          data: resMean,
+          label: "Ratings",
+          data: [...x.values()],
           backgroundColor: ["rgba(2, 169, 255, 0.5)"],
-          borderColor: ["rgb(255, 255, 255)"],
-          borderWidth: 1,
-        },
-        {
-          label: "Average Score",
-          data: resAvg,
-          backgroundColor: ["rgba(185, 31, 31, 0.87)"],
           borderColor: ["rgb(255, 255, 255)"],
           borderWidth: 1,
         },
@@ -64,15 +53,15 @@
     <Bar
       bind:this={rc}
       {data}
-      width={450}
+      width={1000}
       height={450}
       options={{
         plugins: {
           legend: {
-            display: true,
+            display: false,
           },
         },
-        responsive: true,
+        responsive: false,
       }}
     />
   </div>

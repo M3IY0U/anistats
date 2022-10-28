@@ -8,3 +8,11 @@ export function groupBy<T>(arr: Array<T>, keyFunc: Function) {
     return r[y];
   });
 }
+
+export function range(start: number, end: number) {
+  let res = [];
+  for (let i = start; i <= end; i++) {
+    res.push(i);
+  }
+  return res;
+}
