@@ -53,9 +53,9 @@
       options={{
         elements: {
           point: {
-            pointStyle: "triangle",
-            radius: 12,
-            hoverRadius: 20,
+            pointStyle: "",
+            radius: 8,
+            hoverRadius: 12,
           },
         },
         plugins: {

@@ -19,16 +19,14 @@
     if (entries.length < 1) return;
 
     console.log(entries);
-    let min = Math.min(...entries.map(x => x.averageScore))
-    let max = Math.max(...entries.map(x => x.averageScore))
+    let min = Math.min(...entries.map((x) => x.averageScore));
+    let max = Math.max(...entries.map((x) => x.averageScore));
 
-    let x = new Map(range(min,max).map(i => [i, 0]))
+    let x = new Map(range(min, max).map((i) => [i, 0]));
 
-    console.log(x)
     for (const entry of entries) {
       x.set(entry.averageScore, x.get(entry.averageScore) + 1);
     }
-      console.log(x)
 
     data = {
       labels: range(min, max),
