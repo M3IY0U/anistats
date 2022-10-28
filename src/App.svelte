@@ -1,8 +1,8 @@
 <script lang="ts">
-  import { Queries } from "./lib/queries";
+  import { Queries } from "./lib/util/Queries";
   import GenreBarChart from "./lib/GenreBarChart.svelte";
   import EpisodeScatterChart from "./lib/EpisodeScatterChart.svelte";
-  import type { AnimeEntry } from "./lib/AnimeEntry";
+  import type { AnimeEntry } from "./lib/util/AnimeEntry";
   import { Jellyfish } from "svelte-loading-spinners";
   import RatingBarChart from "./lib/RatingBarChart.svelte";
 

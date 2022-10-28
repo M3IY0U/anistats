@@ -1,5 +1,5 @@
 <script lang="ts">
-	import type { AnimeEntry } from './AnimeEntry';
+	import type { AnimeEntry } from './util/AnimeEntry';
 
 	export let info: AnimeEntry;
 </script>

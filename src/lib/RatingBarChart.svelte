@@ -1,9 +1,9 @@
 <script lang="ts">
   import { Bar } from "svelte-chartjs";
   import { Chart, registerables } from "chart.js";
-  import type { AnimeEntry } from "./AnimeEntry";
+  import type { AnimeEntry } from "./util/AnimeEntry";
   import { onMount } from "svelte";
-  import { range } from "./Util";
+  import { range } from "./util/ArrayFunctions";
   Chart.register(...registerables);
 
   export let entries: Array<AnimeEntry>;

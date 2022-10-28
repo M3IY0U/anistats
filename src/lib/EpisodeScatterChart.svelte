@@ -1,7 +1,7 @@
 <script lang="ts">
   import { Scatter } from "svelte-chartjs";
   import { Chart, registerables } from "chart.js";
-  import type { AnimeEntry } from "./AnimeEntry";
+  import type { AnimeEntry } from "./util/AnimeEntry";
   import { onMount } from "svelte";
   Chart.register(...registerables);
 
