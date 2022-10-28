@@ -63,7 +63,7 @@
             display: false,
           },
         },
-        responsive: true,
+        responsive: false,
         scales: {
           y: {
             title: {

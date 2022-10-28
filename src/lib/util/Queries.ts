@@ -21,7 +21,8 @@ export class Queries {
             entry.siteUrl,
             entry.genres,
             entry.episodes,
-            entry.averageScore
+            entry.averageScore,
+            entry.tags
           )
         );
       });
@@ -48,6 +49,10 @@ export class Queries {
               siteUrl
               episodes
               averageScore
+              tags {
+                name
+                rank
+              }
             }
           }
         }

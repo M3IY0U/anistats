@@ -53,7 +53,7 @@
     <Bar
       bind:this={rc}
       {data}
-      width={1000}
+      width={800}
       height={450}
       options={{
         plugins: {

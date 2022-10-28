@@ -49,13 +49,13 @@
     <Bar
       bind:this={bc}
       {data}
-      width={1000}
+      width={800}
       height={500}
       options={{ plugins: {
         legend: {
           display: false,
         },
-      },responsive: true }}
+      },responsive: false }}
     />
   </div>
 {/if}
