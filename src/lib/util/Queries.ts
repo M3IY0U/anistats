@@ -10,7 +10,7 @@ export class Queries {
       this.retrieveList.replace("$id", username)
     );
     for (const list of result.MediaListCollection.lists) {
-      if (!list.name.startsWith("Completed") && !list.name.startsWith("Watching")) continue;
+      if (!(list.name.startsWith("Completed") || list.name.startsWith("Watching"))) continue;
       list.entries.forEach((entry: any) => {
         entry = entry.media;
         entries.push(

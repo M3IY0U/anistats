@@ -7,7 +7,7 @@
   import RatingBarChart from "./lib/RatingBarChart.svelte";
   import TagChart from "./lib/TagChart.svelte";
 
-  let username = "Meiyou";
+  let username = "";
   let entries: Array<AnimeEntry> = [];
   let gbc: GenreBarChart;
   let epc: EpisodeScatterChart;
