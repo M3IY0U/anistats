@@ -1,5 +1,5 @@
 <script lang="ts">
-  import { Bar } from "svelte-chartjs";
+  import { Line } from "svelte-chartjs";
   import { Chart, registerables } from "chart.js";
   import type { AnimeEntry } from "./util/AnimeEntry";
   import { onMount } from "svelte";
@@ -9,7 +9,11 @@
   export let entries: Array<AnimeEntry>;
 
   let data: any;
-  let rc: Bar;
+  let rc: Line;
+
+  const lbc = (item) => {
+    return ` ${item.formattedValue}%`;
+  };
 
   onMount(() => {
     updateChart();
@@ -18,22 +22,34 @@
   export const updateChart = () => {
     if (entries.length < 1) return;
 
-    console.log(entries);
-    let min = Math.min(...entries.map((x) => x.averageScore));
-    let max = Math.max(...entries.map((x) => x.averageScore));
+    let dists = entries.map((e) => e.stats);
 
-    let x = new Map(range(min, max).map((i) => [i, 0]));
+    let sums = entries.map((e) =>
+      e.stats.reduce((partialSum, a) => partialSum + a.amount, 0)
+    );
 
-    for (const entry of entries) {
-      x.set(entry.averageScore, x.get(entry.averageScore) + 1);
+    let res = Array(10).fill(0);
+
+    for (let i = 0; i < sums.length; i++) {
+      for (const dist of dists[i]) {
+        dist.amount /= sums[i];
+      }
     }
 
+    for (const dist of dists) {
+      for (let i = 0; i < dist.length; i++) {
+        res[i] += dist[i].amount;
+      }
+    }
+
+    res = res.map((r) => parseFloat(((r / entries.length) * 100).toFixed(1)));
+
     data = {
-      labels: range(min, max),
+      labels: [...range(1, 10)],
       datasets: [
         {
           label: "Ratings",
-          data: [...x.values()],
+          data: res,
           backgroundColor: ["rgba(2, 169, 255, 0.5)"],
           borderColor: ["rgb(255, 255, 255)"],
           borderWidth: 1,
@@ -48,7 +64,7 @@
 {#if data}
   <div class="container">
     <span class="title">Ratings</span>
-    <Bar
+    <Line
       bind:this={rc}
       {data}
       width={800}
@@ -57,6 +73,11 @@
         plugins: {
           legend: {
             display: false,
+          },
+          tooltip: {
+            callbacks: {
+              label: lbc,
+            },
           },
         },
         responsive: false,

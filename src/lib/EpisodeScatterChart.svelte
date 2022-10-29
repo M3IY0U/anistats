@@ -8,7 +8,11 @@
   export let entries: Array<AnimeEntry>;
   let episodes: Map<Number, Number>;
   let data: any;
-  let pc: Scatter;
+  let pc: Scatter; 
+  const lbc = (item) => {
+    return ` ${item.formattedValue} entries with ${item.label} episodes`;
+  };
+
 
   onMount(() => {
     updateChart();
@@ -62,6 +66,11 @@
           legend: {
             display: false,
           },
+          tooltip: {
+            callbacks: {
+              label: lbc
+            }
+          }
         },
         responsive: false,
         scales: {

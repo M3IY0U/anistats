@@ -26,7 +26,7 @@
       labels: Array.from(occurrences.keys()),
       datasets: [
         {
-          label: "# of genre occurrence",
+          label: " # of genre occurrence",
           data: Array.from(occurrences.values()),
           backgroundColor: ["rgba(2, 169, 255, 0.5)"],
           borderColor: ["rgb(255, 255, 255)"],

@@ -16,3 +16,7 @@ export function range(start: number, end: number) {
   }
   return res;
 }
+
+export function sum(arr: Array<number>) {
+  return arr.reduce((partialSum, a) => partialSum + a, 0);
+}

@@ -10,7 +10,7 @@ export class Queries {
       this.retrieveList.replace("$id", username)
     );
     for (const list of result.MediaListCollection.lists) {
-      if (list.name != "Completed" && list.name != "Watching") continue;
+      if (!list.name.startsWith("Completed") && !list.name.startsWith("Watching")) continue;
       list.entries.forEach((entry: any) => {
         entry = entry.media;
         entries.push(
@@ -21,7 +21,7 @@ export class Queries {
             entry.siteUrl,
             entry.genres,
             entry.episodes,
-            entry.averageScore,
+            entry.stats.scoreDistribution,
             entry.tags
           )
         );
@@ -48,7 +48,12 @@ export class Queries {
               }
               siteUrl
               episodes
-              averageScore
+              stats {
+                scoreDistribution {
+                  score
+                  amount
+                }
+              }
               tags {
                 name
                 rank

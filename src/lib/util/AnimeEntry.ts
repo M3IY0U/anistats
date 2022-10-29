@@ -5,7 +5,7 @@ export class AnimeEntry {
   url: string;
   genres: string[];
   episodes: number;
-  averageScore: number;
+  stats: Array<{score: number, amount: number}>;
   tags: Array<{ name: string; rank: number }>;
 
   constructor(
@@ -15,7 +15,7 @@ export class AnimeEntry {
     url: string,
     genres: string[],
     episodes: number,
-    averageScore: number,
+    stats: Array<{score: number, amount: number}>,
     tags: Array<{ name: string; rank: number }>
   ) {
     this.status = status;
@@ -24,7 +24,7 @@ export class AnimeEntry {
     this.url = url;
     this.genres = genres;
     this.episodes = episodes;
-    this.averageScore = averageScore;
+    this.stats = stats;
     this.tags = tags;
   }
 }

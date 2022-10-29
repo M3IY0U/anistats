@@ -56,6 +56,10 @@
     <div class="grid-item">
       <GenreBarChart bind:this={gbc} {entries} />
     </div>
+    
+    <div class="grid-item">
+      <TagChart bind:this={tc} {entries} />
+    </div>
     <div class="grid-item">
       <EpisodeScatterChart bind:this={epc} {entries} />
     </div>
@@ -64,9 +68,6 @@
       <RatingBarChart bind:this={rrc} {entries} />
     </div>
 
-    <div class="grid-item">
-      <TagChart bind:this={tc} {entries} />
-    </div>
   </div>
 {/if}
 
@@ -109,9 +110,10 @@
   }
 
   .grid-container {
-    width: 100%;
     margin: 15px;
     display: grid;
+    padding: 20px;
+    border-radius: 10px;
     grid-template-columns: auto auto;
     background-color: #454545;
     gap: 15px;
@@ -119,6 +121,8 @@
 
   .grid-item {
     background-color: #393939;
+    border-radius: 10px;
+    padding: 10px;
     display: flex;
     align-items: center;
     justify-content: center;
