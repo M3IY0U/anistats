@@ -3,6 +3,7 @@
   import type { AnimeEntry } from "./util/AnimeEntry";
   import { onMount } from "svelte";
   import { Bar } from "svelte-chartjs";
+  import Slider from "./external/Slider.svelte";
 
   Chart.register(...registerables);
 
@@ -13,18 +14,18 @@
 
   let data: any;
   let tc: Bar;
+  let value = [50, 100];
 
   onMount(() => {
     updateChart();
   });
 
   export const updateChart = () => {
-    
     let occurrences = new Map(
       [
         ...entries
           .flatMap((x) => x.tags)
-          .filter(f => f.rank > 50)
+          .filter((f) => f.rank > value[0])
           .reduce(
             (acc, e) => acc.set(e.name, (acc.get(e.name) || 1) + 1),
             new Map()
@@ -63,6 +64,9 @@
       width={800}
       height={450}
       options={{
+        animation: {
+          delay: 250,
+        },
         plugins: {
           legend: {
             display: false,
@@ -75,6 +79,9 @@
         },
       }}
     />
+    You can use this slider to adjust the threshold that tags need to be counted,
+    currently at: {value[0]}%
+    <Slider max={100} min={0} step={1} bind:value on:input={updateChart} />
   </div>
 {/if}
 
