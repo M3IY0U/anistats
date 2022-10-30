@@ -10,10 +10,6 @@
   import { animeToggle, entries } from "./lib/util/stores";
 
   let username = "";
-  let gbc: GenreBarChart;
-  let epc: EpisodeScatterChart;
-  let rrc: RatingBarChart;
-  let tc: TagChart;
   let toggled = true;
   let lists: Array<string>;
   let allEntries: Array<AnimeEntry>;
@@ -102,18 +98,18 @@
   </span>
   <div class="grid-container">
     <div class="grid-item">
-      <GenreBarChart bind:this={gbc} />
+      <GenreBarChart />
     </div>
 
     <div class="grid-item">
-      <TagChart bind:this={tc} />
+      <TagChart />
     </div>
     <div class="grid-item">
-      <EpisodeScatterChart bind:this={epc} />
+      <EpisodeScatterChart />
     </div>
 
     <div class="grid-item">
-      <RatingBarChart bind:this={rrc} />
+      <RatingBarChart />
     </div>
   </div>
 {/if}

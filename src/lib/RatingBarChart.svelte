@@ -13,11 +13,6 @@
     return ` ${item.formattedValue}%`;
   };
 
-
-  onMount(() => {
-    updateChart();
-  });
-
   export const updateChart = () => {
     if ($entries.length < 1) return;
 
@@ -59,7 +54,7 @@
     if (rc != undefined) rc.data = data;
   };
 
-  entries.subscribe(() =>{
+  entries.subscribe(() => {
     updateChart();
   });
 </script>

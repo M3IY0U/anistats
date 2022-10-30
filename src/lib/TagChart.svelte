@@ -17,10 +17,6 @@
   let value = [0, 100];
   let descriptions: Map<string, string>;
 
-  onMount(() => {
-    updateChart();
-  });
-
   export const updateChart = () => {
     descriptions = new Map([
       ...$entries
@@ -64,7 +60,6 @@
   entries.subscribe(() => {
     updateChart();
   });
-
 </script>
 
 {#if data}

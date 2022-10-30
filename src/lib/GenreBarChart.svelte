@@ -42,10 +42,6 @@
   entries.subscribe(() => {
     updateChart();
   });
-
-  onMount(() => {
-    updateChart();
-  });
 </script>
 
 {#if data}

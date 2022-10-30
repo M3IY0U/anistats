@@ -12,11 +12,6 @@
     return ` ${item.formattedValue} entries with ${item.label} episodes`;
   };
 
-
-  onMount(() => {
-    updateChart();
-  });
-
   export const updateChart = () => {
     if ($entries.length > 0) {
       episodes = new Map(
