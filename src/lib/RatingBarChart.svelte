@@ -1,12 +1,10 @@
 <script lang="ts">
   import { Line } from "svelte-chartjs";
   import { Chart, registerables } from "chart.js";
-  import type { AnimeEntry } from "./util/AnimeEntry";
   import { onMount } from "svelte";
   import { range } from "./util/ArrayFunctions";
+  import { entries } from "./util/stores";
   Chart.register(...registerables);
-
-  export let entries: Array<AnimeEntry>;
 
   let data: any;
   let rc: Line;
@@ -15,16 +13,17 @@
     return ` ${item.formattedValue}%`;
   };
 
+
   onMount(() => {
     updateChart();
   });
 
   export const updateChart = () => {
-    if (entries.length < 1) return;
+    if ($entries.length < 1) return;
 
-    let dists = entries.map((e) => e.stats);
+    let dists = $entries.map((e) => e.stats);
 
-    let sums = entries.map((e) =>
+    let sums = $entries.map((e) =>
       e.stats.reduce((partialSum, a) => partialSum + a.amount, 0)
     );
 
@@ -42,7 +41,7 @@
       }
     }
 
-    res = res.map((r) => parseFloat(((r / entries.length) * 100).toFixed(1)));
+    res = res.map((r) => parseFloat(((r / $entries.length) * 100).toFixed(1)));
 
     data = {
       labels: [...range(1, 10)],
@@ -59,6 +58,10 @@
 
     if (rc != undefined) rc.data = data;
   };
+
+  entries.subscribe(() =>{
+    updateChart();
+  });
 </script>
 
 {#if data}

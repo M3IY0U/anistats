@@ -1,17 +1,15 @@
 <script lang="ts">
   import { Chart, registerables } from "chart.js";
-  import { createOnClickLink, type AnimeEntry } from "./util/AnimeEntry";
+  import { createOnClickLink } from "./util/AnimeEntry";
   import { onMount } from "svelte";
   import { Bar } from "svelte-chartjs";
   import Slider from "./external/Slider.svelte";
-  import { animeToggle } from "./util/stores";
+  import { animeToggle, entries } from "./util/stores";
 
   Chart.register(...registerables);
 
-  export let entries: Array<AnimeEntry>;
-
   const lbc = (item) => {
-    return ` ${item.formattedValue}% \n\n${descriptions.get(item.label)}`;
+    return ` ${item.formattedValue}% "${descriptions.get(item.label)}"`;
   };
 
   let data: any;
@@ -25,14 +23,14 @@
 
   export const updateChart = () => {
     descriptions = new Map([
-      ...entries
+      ...$entries
         .flatMap((x) => x.tags)
         .reduce((acc, e) => acc.set(e.name, e.description), new Map()),
     ]);
 
     let occurrences = new Map(
       [
-        ...entries
+        ...$entries
           .flatMap((x) => x.tags)
           .filter((f) => f.rank > value[0])
           .reduce(
@@ -46,7 +44,7 @@
     );
 
     let res = Array.from(occurrences).map(([k, v]) =>
-      ((100 * v) / entries.length).toFixed(1)
+      ((100 * v) / $entries.length).toFixed(1)
     );
 
     data = {
@@ -62,6 +60,11 @@
       ],
     };
   };
+
+  entries.subscribe(() => {
+    updateChart();
+  });
+
 </script>
 
 {#if data}

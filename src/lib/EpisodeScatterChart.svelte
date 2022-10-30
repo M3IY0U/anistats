@@ -1,11 +1,10 @@
 <script lang="ts">
   import { Scatter } from "svelte-chartjs";
   import { Chart, registerables } from "chart.js";
-  import type { AnimeEntry } from "./util/AnimeEntry";
   import { onMount } from "svelte";
+  import { entries } from "./util/stores";
   Chart.register(...registerables);
 
-  export let entries: Array<AnimeEntry>;
   let episodes: Map<Number, Number>;
   let data: any;
   let pc: Scatter;
@@ -13,15 +12,16 @@
     return ` ${item.formattedValue} entries with ${item.label} episodes`;
   };
 
+
   onMount(() => {
     updateChart();
   });
 
   export const updateChart = () => {
-    if (entries.length > 0) {
+    if ($entries.length > 0) {
       episodes = new Map(
         [
-          ...entries
+          ...$entries
             .flatMap((x) => x.episodes)
             .reduce((acc, e) => acc.set(e, (acc.get(e) || 0) + 1), new Map())
             .entries(),
@@ -43,6 +43,10 @@
 
     if (pc != undefined) pc.data = data;
   };
+
+  entries.subscribe(() => {
+    updateChart();
+  });
 </script>
 
 {#if data}

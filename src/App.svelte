@@ -7,35 +7,50 @@
   import RatingBarChart from "./lib/RatingBarChart.svelte";
   import TagChart from "./lib/TagChart.svelte";
   import Toggle from "svelte-toggle";
-  import { animeToggle } from "./lib/util/stores";
+  import { animeToggle, entries } from "./lib/util/stores";
 
   let username = "";
-  let entries: Array<AnimeEntry> = [];
   let gbc: GenreBarChart;
   let epc: EpisodeScatterChart;
   let rrc: RatingBarChart;
   let tc: TagChart;
   let toggled = true;
+  let lists: Array<string>;
+  let allEntries: Array<AnimeEntry>;
 
   $: {
     animeToggle.set(toggled);
   }
 
+  function filterEntries() {
+    let selected = [...document.querySelectorAll("input:checked")].map(
+      (x) => x.id
+    );
+    if (selected.length > 0) {
+      $entries = allEntries.filter((x) => selected.includes(x.status));
+    } else {
+      $entries = allEntries;
+      document
+        .querySelectorAll("input[type=checkbox]")
+        .forEach((x: HTMLInputElement) => (x.checked = true));
+    }
+  }
+
   async function doRequest(username: string) {
-    entries = [];
+    allEntries = [];
+    $entries = [];
     document
       .getElementById("loading-spinner")
       .setAttribute("style", "opacity: 100%");
 
-    entries = await Queries.fetchData(username, toggled);
+    allEntries = await Queries.fetchData(username, toggled);
+    lists = [...new Set(allEntries.map((e) => e.status))];
+
+    $entries = allEntries;
 
     document
       .getElementById("loading-spinner")
       .setAttribute("style", "opacity: 0%");
-    if (gbc != undefined) gbc.updateChart();
-    if (epc != undefined) epc.updateChart();
-    if (rrc != undefined) rrc.updateChart();
-    if (tc != undefined) tc.updateChart();
   }
 </script>
 
@@ -65,21 +80,39 @@
 <div id="loading-spinner" style="opacity: 0%;">
   <Jellyfish size="200" color="#02a9ff" unit="px" duration="2s" />
 </div>
-{#if entries.length > 0}
+{#if $entries.length > 0}
+  <div id="lists">
+    {#each lists as list}
+      <label for="list-{list}">
+        <input
+          type="checkbox"
+          name={list}
+          id={list}
+          checked
+          on:change={filterEntries}
+        />
+        {list}
+      </label>
+    {/each}
+  </div>
+  <span>
+    Total {$animeToggle ? "Anime" : "Manga"} entries: {allEntries.length} | Filtered
+    entries: {$entries.length}
+  </span>
   <div class="grid-container">
     <div class="grid-item">
-      <GenreBarChart bind:this={gbc} {entries} />
+      <GenreBarChart bind:this={gbc} />
     </div>
 
     <div class="grid-item">
-      <TagChart bind:this={tc} {entries} />
+      <TagChart bind:this={tc} />
     </div>
     <div class="grid-item">
-      <EpisodeScatterChart bind:this={epc} {entries} />
+      <EpisodeScatterChart bind:this={epc} />
     </div>
 
     <div class="grid-item">
-      <RatingBarChart bind:this={rrc} {entries} />
+      <RatingBarChart bind:this={rrc} />
     </div>
   </div>
 {/if}
@@ -102,11 +135,12 @@
     align-items: center;
     flex-direction: column;
     font-size: 2rem;
-    margin-bottom: 2rem;
+    margin-bottom: 1rem;
   }
 
   #username-input {
     min-width: 200px;
+    margin-bottom: 1rem;
   }
 
   #username-input:focus {

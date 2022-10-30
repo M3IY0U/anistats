@@ -1,22 +1,22 @@
 <script lang="ts">
   import { Bar } from "svelte-chartjs";
   import { Chart, registerables } from "chart.js";
-  import { createOnClickLink, type AnimeEntry } from "./util/AnimeEntry";
+  import { createOnClickLink } from "./util/AnimeEntry";
   import { onMount } from "svelte";
   import { animeToggle } from "./util/stores";
+  import { entries } from "./util/stores";
 
   Chart.register(...registerables);
 
-  export let entries: Array<AnimeEntry>;
   let occurrences: Map<string, Number>;
   let data: any;
   let bc: Bar;
 
   export const updateChart = () => {
-    if (entries.length > 0) {
+    if ($entries.length > 0) {
       occurrences = new Map(
         [
-          ...entries
+          ...$entries
             .flatMap((x) => x.genres)
             .reduce((acc, e) => acc.set(e, (acc.get(e) || 0) + 1), new Map())
             .entries(),
@@ -38,6 +38,10 @@
 
     if (bc != undefined) bc.data = data;
   };
+
+  entries.subscribe(() => {
+    updateChart();
+  });
 
   onMount(() => {
     updateChart();
