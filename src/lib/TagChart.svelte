@@ -9,25 +9,32 @@
 
   export let entries: Array<AnimeEntry>;
   const lbc = (item) => {
-    return ` ${item.formattedValue}%`;
+    return ` ${item.formattedValue}% \n\n${descriptions.get(item.label)}`;
   };
 
   let data: any;
   let tc: Bar;
-  let value = [50, 100];
+  let value = [0, 100];
+  let descriptions: Map<string, string>;
 
   onMount(() => {
     updateChart();
   });
 
   export const updateChart = () => {
+    descriptions = new Map([
+      ...entries
+        .flatMap((x) => x.tags)
+        .reduce((acc, e) => acc.set(e.name, e.description), new Map()),
+    ]);
+
     let occurrences = new Map(
       [
         ...entries
           .flatMap((x) => x.tags)
           .filter((f) => f.rank > value[0])
           .reduce(
-            (acc, e) => acc.set(e.name, (acc.get(e.name) || 1) + 1),
+            (acc, e) => acc.set(e.name, (acc.get(e.name) || 0) + e.rank / 100),
             new Map()
           )
           .entries(),
@@ -37,7 +44,7 @@
     );
 
     let res = Array.from(occurrences).map(([k, v]) =>
-      ((v / entries.length) * 100).toFixed(1)
+      ((100 * v) / entries.length).toFixed(1)
     );
 
     data = {

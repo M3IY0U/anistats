@@ -6,6 +6,7 @@
   import { Jellyfish } from "svelte-loading-spinners";
   import RatingBarChart from "./lib/RatingBarChart.svelte";
   import TagChart from "./lib/TagChart.svelte";
+  import Toggle from "svelte-toggle";
 
   let username = "";
   let entries: Array<AnimeEntry> = [];
@@ -13,6 +14,7 @@
   let epc: EpisodeScatterChart;
   let rrc: RatingBarChart;
   let tc: TagChart;
+  let toggled = true;
 
   async function doRequest(username: string) {
     entries = [];
@@ -20,7 +22,7 @@
       .getElementById("loading-spinner")
       .setAttribute("style", "opacity: 100%");
 
-    entries = await Queries.fetchData(username);
+    entries = await Queries.fetchData(username, toggled);
 
     document
       .getElementById("loading-spinner")
@@ -45,8 +47,9 @@
       bind:value={username}
       id="username-input"
       required
-    />
+    /> 
   </form>
+  <Toggle bind:toggled label="" on="Anime" off="Manga" />
 </div>
 <div id="loading-spinner" style="opacity: 0%;">
   <Jellyfish size="200" color="#02a9ff" unit="px" duration="2s" />
@@ -78,13 +81,17 @@
     line-height: 1;
   }
 
+  .name-submit{
+    margin-right: 20px;
+  }
+  
   .username-form {
     text-align: center;
     width: 35%;
     display: flex;
     align-items: center;
+    flex-direction: column;
     font-size: 2rem;
-    justify-content: center;
     margin-bottom: 2rem;
   }
 

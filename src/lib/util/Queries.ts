@@ -3,14 +3,19 @@ import { request } from "graphql-request";
 import { AnimeEntry } from "./AnimeEntry";
 
 export class Queries {
-  public static async fetchData(username: string) {
+  public static async fetchData(username: string, anime: boolean) {
     let entries = [];
     let result = await request(
       this.apiUrl,
-      this.retrieveList.replace("$id", username)
+      this.retrieveList
+        .replace("$id", username)
+        .replace("TYPE", anime ? "ANIME" : "MANGA")
     );
     for (const list of result.MediaListCollection.lists) {
-      if (!(list.name.startsWith("Completed") || list.name.startsWith("Watching"))) continue;
+      if (
+        !(list.name.startsWith("Completed") || list.name.startsWith("Watching"))
+      )
+        continue;
       list.entries.forEach((entry: any) => {
         entry = entry.media;
         entries.push(
@@ -33,7 +38,7 @@ export class Queries {
   public static readonly apiUrl = "https://graphql.anilist.co";
   public static readonly retrieveList = gql`
     {
-      MediaListCollection(userName: "$id", type: ANIME) {
+      MediaListCollection(userName: "$id", type: TYPE) {
         lists {
           name
           entries {
@@ -57,6 +62,7 @@ export class Queries {
               tags {
                 name
                 rank
+                description
               }
             }
           }
