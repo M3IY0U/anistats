@@ -1,8 +1,9 @@
 <script lang="ts">
   import { Bar } from "svelte-chartjs";
   import { Chart, registerables } from "chart.js";
-  import type { AnimeEntry } from "./util/AnimeEntry";
+  import { createOnClickLink, type AnimeEntry } from "./util/AnimeEntry";
   import { onMount } from "svelte";
+  import { animeToggle } from "./util/stores";
 
   Chart.register(...registerables);
 
@@ -55,10 +56,7 @@
         onClick: (_, arr) => {
           if (arr.length > 0) {
             let label = data.labels[arr[0].index];
-            window.open(
-              `https://anilist.co/search/anime?genres=${label}&only%20show%20my%20anime=true`,
-              "_blank"
-            );
+            window.open(createOnClickLink(label, $animeToggle), "_blank");
           }
         },
         plugins: {

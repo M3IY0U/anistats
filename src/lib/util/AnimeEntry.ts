@@ -1,3 +1,8 @@
+export function createOnClickLink(genre: string, isAnime: boolean) {
+  let media = isAnime ? "anime" : "manga";
+  return `https://anilist.co/search/${media}?genres=${genre}&only%20show%20my%20${media}=true`;
+}
+
 export class AnimeEntry {
   status: string;
   title: string;
@@ -5,8 +10,8 @@ export class AnimeEntry {
   url: string;
   genres: string[];
   episodes: number;
-  stats: Array<{score: number, amount: number}>;
-  tags: Array<{ name: string; rank: number, description: string }>;
+  stats: Array<{ score: number; amount: number }>;
+  tags: Array<{ name: string; rank: number; description: string }>;
 
   constructor(
     status: string,
@@ -15,8 +20,8 @@ export class AnimeEntry {
     url: string,
     genres: string[],
     episodes: number,
-    stats: Array<{score: number, amount: number}>,
-    tags: Array<{ name: string; rank: number, description: string }>
+    stats: Array<{ score: number; amount: number }>,
+    tags: Array<{ name: string; rank: number; description: string }>
   ) {
     this.status = status;
     this.title = title;

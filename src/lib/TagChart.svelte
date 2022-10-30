@@ -1,13 +1,15 @@
 <script lang="ts">
   import { Chart, registerables } from "chart.js";
-  import type { AnimeEntry } from "./util/AnimeEntry";
+  import { createOnClickLink, type AnimeEntry } from "./util/AnimeEntry";
   import { onMount } from "svelte";
   import { Bar } from "svelte-chartjs";
   import Slider from "./external/Slider.svelte";
+  import { animeToggle } from "./util/stores";
 
   Chart.register(...registerables);
 
   export let entries: Array<AnimeEntry>;
+
   const lbc = (item) => {
     return ` ${item.formattedValue}% \n\n${descriptions.get(item.label)}`;
   };
@@ -64,7 +66,7 @@
 
 {#if data}
   <div class="container">
-    <span class="title">% of Anime with tag</span>
+    <span class="title">% of {$animeToggle ? "Anime" : "Manga"} with tag</span>
     <Bar
       bind:this={tc}
       {data}
@@ -74,10 +76,7 @@
         onClick: (_, arr) => {
           if (arr.length > 0) {
             let label = data.labels[arr[0].index];
-            window.open(
-              `https://anilist.co/search/anime?genres=${label}&only%20show%20my%20anime=true`,
-              "_blank"
-            );
+            window.open(createOnClickLink(label, $animeToggle), "_blank");
           }
         },
         animation: {

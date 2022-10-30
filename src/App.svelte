@@ -7,6 +7,7 @@
   import RatingBarChart from "./lib/RatingBarChart.svelte";
   import TagChart from "./lib/TagChart.svelte";
   import Toggle from "svelte-toggle";
+  import { animeToggle } from "./lib/util/stores";
 
   let username = "";
   let entries: Array<AnimeEntry> = [];
@@ -15,6 +16,10 @@
   let rrc: RatingBarChart;
   let tc: TagChart;
   let toggled = true;
+
+  $: {
+    animeToggle.set(toggled);
+  }
 
   async function doRequest(username: string) {
     entries = [];
@@ -47,9 +52,15 @@
       bind:value={username}
       id="username-input"
       required
-    /> 
+    />
   </form>
-  <Toggle bind:toggled label="" on="Anime" off="Manga" />
+  <Toggle
+    bind:toggled
+    on:toggle={() => doRequest(username)}
+    label=""
+    on="Anime"
+    off="Manga"
+  />
 </div>
 <div id="loading-spinner" style="opacity: 0%;">
   <Jellyfish size="200" color="#02a9ff" unit="px" duration="2s" />
@@ -59,7 +70,7 @@
     <div class="grid-item">
       <GenreBarChart bind:this={gbc} {entries} />
     </div>
-    
+
     <div class="grid-item">
       <TagChart bind:this={tc} {entries} />
     </div>
@@ -70,7 +81,6 @@
     <div class="grid-item">
       <RatingBarChart bind:this={rrc} {entries} />
     </div>
-
   </div>
 {/if}
 
@@ -81,10 +91,10 @@
     line-height: 1;
   }
 
-  .name-submit{
+  .name-submit {
     margin-right: 20px;
   }
-  
+
   .username-form {
     text-align: center;
     width: 35%;
