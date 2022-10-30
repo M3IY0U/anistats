@@ -37,6 +37,7 @@
   }
 
   async function doRequest(username: string) {
+    if (!username) return;
     allEntries = [];
     $entries = [];
     document
