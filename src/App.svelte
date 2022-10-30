@@ -5,9 +5,10 @@
   import type { AnimeEntry } from "./lib/util/AnimeEntry";
   import { Jellyfish } from "svelte-loading-spinners";
   import RatingBarChart from "./lib/RatingBarChart.svelte";
-  import TagChart from "./lib/TagChart.svelte";
+  import TagBarChart from "./lib/TagBarChart.svelte";
   import Toggle from "svelte-toggle";
   import { animeToggle, entries } from "./lib/util/stores";
+  import DateBarChart from "./lib/DateBarChart.svelte";
 
   let username = "";
   let toggled = true;
@@ -102,10 +103,14 @@
     </div>
 
     <div class="grid-item">
-      <TagChart />
+      <TagBarChart />
     </div>
     <div class="grid-item">
       <EpisodeScatterChart />
+    </div>
+
+    <div class="grid-item">
+      <DateBarChart />
     </div>
 
     <div class="grid-item">

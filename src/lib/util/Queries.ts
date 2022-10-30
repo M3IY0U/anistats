@@ -23,7 +23,8 @@ export class Queries {
             entry.genres,
             entry.episodes,
             entry.stats.scoreDistribution,
-            entry.tags
+            entry.tags,
+            entry.startDate.year
           )
         );
       });
@@ -59,6 +60,9 @@ export class Queries {
                 name
                 rank
                 description
+              }
+              startDate {
+                year
               }
             }
           }

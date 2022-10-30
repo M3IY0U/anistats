@@ -1,7 +1,6 @@
 <script lang="ts">
   import { Chart, registerables } from "chart.js";
-  import { createOnClickLink } from "./util/AnimeEntry";
-  import { onMount } from "svelte";
+  import { createGenreClickLink } from "./util/AnimeEntry";
   import { Bar } from "svelte-chartjs";
   import Slider from "./external/Slider.svelte";
   import { animeToggle, entries } from "./util/stores";
@@ -74,7 +73,7 @@
         onClick: (_, arr) => {
           if (arr.length > 0) {
             let label = data.labels[arr[0].index];
-            window.open(createOnClickLink(label, $animeToggle), "_blank");
+            window.open(createGenreClickLink(label, $animeToggle), "_blank");
           }
         },
         animation: {

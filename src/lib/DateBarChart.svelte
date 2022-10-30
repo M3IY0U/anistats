@@ -1,33 +1,36 @@
 <script lang="ts">
   import { Bar } from "svelte-chartjs";
   import { Chart, registerables } from "chart.js";
-  import { createGenreClickLink } from "./util/AnimeEntry";
+  import { createDateClickLink } from "./util/AnimeEntry";
   import { animeToggle } from "./util/stores";
   import { entries } from "./util/stores";
 
   Chart.register(...registerables);
 
-  let occurrences: Map<string, Number>;
+  let dates: Map<number, number>;
   let data: any;
   let bc: Bar;
 
   export const updateChart = () => {
     if ($entries.length > 0) {
-      occurrences = new Map(
+      dates = new Map(
         [
           ...$entries
-            .flatMap((x) => x.genres)
+            .flatMap((x) => x.startYear)
+            .filter(d => d != null)
             .reduce((acc, e) => acc.set(e, (acc.get(e) || 0) + 1), new Map())
             .entries(),
-        ].sort((a, b) => b[1] - a[1])
+        ].sort((a, b) => a[0] - b[0])
       );
     }
+    console.log(dates);
+    
     data = {
-      labels: Array.from(occurrences.keys()),
+      labels: Array.from(dates.keys()),
       datasets: [
         {
-          label: " # of genre occurrence",
-          data: Array.from(occurrences.values()),
+          label: " entrie(s) started this year",
+          data: Array.from(dates.values()),
           backgroundColor: ["rgba(2, 169, 255, 0.5)"],
           borderColor: ["rgb(255, 255, 255)"],
           borderWidth: 2,
@@ -45,7 +48,7 @@
 
 {#if data}
   <div class="container">
-    <span>Genre Occurrences</span>
+    <span>Starting Dates</span>
     <Bar
       bind:this={bc}
       {data}
@@ -55,7 +58,7 @@
         onClick: (_, arr) => {
           if (arr.length > 0) {
             let label = data.labels[arr[0].index];
-            window.open(createGenreClickLink(label, $animeToggle), "_blank");
+            window.open(createDateClickLink(label, $animeToggle), "_blank");
           }
         },
         plugins: {
