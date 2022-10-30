@@ -51,11 +51,23 @@
       {data}
       width={800}
       height={500}
-      options={{ plugins: {
-        legend: {
-          display: false,
+      options={{
+        onClick: (_, arr) => {
+          if (arr.length > 0) {
+            let label = data.labels[arr[0].index];
+            window.open(
+              `https://anilist.co/search/anime?genres=${label}&only%20show%20my%20anime=true`,
+              "_blank"
+            );
+          }
         },
-      },responsive: false }}
+        plugins: {
+          legend: {
+            display: false,
+          },
+        },
+        responsive: false,
+      }}
     />
   </div>
 {/if}

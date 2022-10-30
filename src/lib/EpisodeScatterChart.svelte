@@ -8,11 +8,10 @@
   export let entries: Array<AnimeEntry>;
   let episodes: Map<Number, Number>;
   let data: any;
-  let pc: Scatter; 
+  let pc: Scatter;
   const lbc = (item) => {
     return ` ${item.formattedValue} entries with ${item.label} episodes`;
   };
-
 
   onMount(() => {
     updateChart();
@@ -29,7 +28,7 @@
         ].sort((a, b) => b[1] - a[1])
       );
     }
-    
+
     data = {
       datasets: [
         {
@@ -55,6 +54,15 @@
       width={650}
       height={450}
       options={{
+        onClick: (_, arr) => {
+          if (arr.length > 0) {
+            let label = data.datasets[0].data[arr[0].index].x;
+            window.open(
+              `https://anilist.co/search/anime?only%20show%20my%20anime=true&episodes=${label}&episodes=${label}`,
+              "_blank"
+            );
+          }
+        },
         elements: {
           point: {
             pointStyle: "",
@@ -68,9 +76,9 @@
           },
           tooltip: {
             callbacks: {
-              label: lbc
-            }
-          }
+              label: lbc,
+            },
+          },
         },
         responsive: false,
         scales: {

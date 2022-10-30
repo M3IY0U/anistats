@@ -71,6 +71,15 @@
       width={800}
       height={450}
       options={{
+        onClick: (_, arr) => {
+          if (arr.length > 0) {
+            let label = data.labels[arr[0].index];
+            window.open(
+              `https://anilist.co/search/anime?genres=${label}&only%20show%20my%20anime=true`,
+              "_blank"
+            );
+          }
+        },
         animation: {
           delay: 250,
         },
