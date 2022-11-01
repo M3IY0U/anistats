@@ -4,6 +4,7 @@
   import { Bar } from "svelte-chartjs";
   import Slider from "./external/Slider.svelte";
   import { animeToggle, entries } from "./util/stores";
+  import { BG_COLOR, BORDER_COLOR, FONT_COLOR } from "./util/constants";
 
   Chart.register(...registerables);
 
@@ -48,8 +49,8 @@
         {
           label: "% of tag occurrence",
           data: [...res.values()],
-          backgroundColor: ["rgba(2, 169, 255, 0.5)"],
-          borderColor: ["rgb(255, 255, 255)"],
+          backgroundColor: [BG_COLOR],
+          borderColor: [BORDER_COLOR],
           borderWidth: 2,
         },
       ],
@@ -86,6 +87,18 @@
           tooltip: {
             callbacks: {
               label: lbc,
+            },
+          },
+        },
+        scales: {
+          y: {
+            ticks: {
+              color: FONT_COLOR,
+            },
+          },
+          x: {
+            ticks: {
+              color: FONT_COLOR,
             },
           },
         },

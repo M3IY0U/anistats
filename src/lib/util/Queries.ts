@@ -1,5 +1,4 @@
-import { gql } from "graphql-request";
-import { request } from "graphql-request";
+import { gql, request } from "graphql-request";
 import { AnimeEntry } from "./AnimeEntry";
 
 export class Queries {
@@ -22,6 +21,7 @@ export class Queries {
             entry.siteUrl,
             entry.genres,
             entry.episodes,
+            entry.chapters,
             entry.stats.scoreDistribution,
             entry.tags,
             entry.startDate.year
@@ -50,6 +50,7 @@ export class Queries {
               }
               siteUrl
               episodes
+              chapters
               stats {
                 scoreDistribution {
                   score

@@ -4,6 +4,7 @@
   import { createDateClickLink } from "./util/AnimeEntry";
   import { animeToggle } from "./util/stores";
   import { entries } from "./util/stores";
+  import { BG_COLOR, BORDER_COLOR, FONT_COLOR } from "./util/constants";
 
   Chart.register(...registerables);
 
@@ -17,22 +18,21 @@
         [
           ...$entries
             .flatMap((x) => x.startYear)
-            .filter(d => d != null)
+            .filter((d) => d != null)
             .reduce((acc, e) => acc.set(e, (acc.get(e) || 0) + 1), new Map())
             .entries(),
         ].sort((a, b) => a[0] - b[0])
       );
     }
-    console.log(dates);
-    
+
     data = {
       labels: Array.from(dates.keys()),
       datasets: [
         {
           label: " entrie(s) started this year",
           data: Array.from(dates.values()),
-          backgroundColor: ["rgba(2, 169, 255, 0.5)"],
-          borderColor: ["rgb(255, 255, 255)"],
+          backgroundColor: [BG_COLOR],
+          borderColor: [BORDER_COLOR],
           borderWidth: 2,
         },
       ],
@@ -67,6 +67,18 @@
           },
         },
         responsive: false,
+        scales: {
+          y: {
+            ticks: {
+              color: FONT_COLOR,
+            },
+          },
+          x: {
+            ticks: {
+              color: FONT_COLOR,
+            },
+          },
+        },
       }}
     />
   </div>

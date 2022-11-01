@@ -1,9 +1,9 @@
 <script lang="ts">
   import { Line } from "svelte-chartjs";
   import { Chart, registerables } from "chart.js";
-  import { onMount } from "svelte";
   import { range } from "./util/ArrayFunctions";
   import { entries } from "./util/stores";
+  import { BG_COLOR, BORDER_COLOR, FONT_COLOR } from "./util/constants";
   Chart.register(...registerables);
 
   let data: any;
@@ -42,10 +42,11 @@
       labels: [...range(1, 10)],
       datasets: [
         {
+          fill: "origin",
           label: "Ratings",
           data: res,
-          backgroundColor: ["rgba(2, 169, 255, 0.5)"],
-          borderColor: ["rgb(255, 255, 255)"],
+          backgroundColor: [BG_COLOR],
+          borderColor: [BORDER_COLOR],
           borderWidth: 1,
         },
       ],
@@ -68,6 +69,16 @@
       width={800}
       height={450}
       options={{
+        elements: {
+          point: {
+            pointStyle: "",
+            radius: 5,
+            hoverRadius: 12,
+          },
+          line: {
+            tension: 0.35,
+          },
+        },
         plugins: {
           legend: {
             display: false,
@@ -79,6 +90,18 @@
           },
         },
         responsive: false,
+        scales: {
+          y: {
+            ticks: {
+              color: FONT_COLOR,
+            },
+          },
+          x: {
+            ticks: {
+              color: FONT_COLOR,
+            },
+          },
+        },
       }}
     />
   </div>

@@ -1,10 +1,10 @@
 <script lang="ts">
   import { Queries } from "./lib/util/Queries";
   import GenreBarChart from "./lib/GenreBarChart.svelte";
-  import EpisodeScatterChart from "./lib/EpisodeScatterChart.svelte";
+  import EpisodeDonutChart from "./lib/EpisodeDonutChart.svelte";
   import type { AnimeEntry } from "./lib/util/AnimeEntry";
   import { Jellyfish } from "svelte-loading-spinners";
-  import RatingBarChart from "./lib/RatingBarChart.svelte";
+  import RatingLineChart from "./lib/RatingLineChart.svelte";
   import TagBarChart from "./lib/TagBarChart.svelte";
   import Toggle from "svelte-toggle";
   import { animeToggle, entries } from "./lib/util/stores";
@@ -14,6 +14,7 @@
   let toggled = true;
   let lists: Array<string>;
   let allEntries: Array<AnimeEntry>;
+  let errorMessage = "";
 
   $: {
     animeToggle.set(toggled);
@@ -35,6 +36,7 @@
 
   async function doRequest(username: string) {
     if (!username) return;
+    errorMessage = "";
     allEntries = [];
     $entries = [];
     document
@@ -49,6 +51,11 @@
     document
       .getElementById("loading-spinner")
       .setAttribute("style", "opacity: 0%");
+
+    errorMessage =
+      allEntries.length < 1
+        ? `No ${$animeToggle ? "Anime" : "Manga"} entries found for this user!`
+        : "";
   }
 </script>
 
@@ -105,8 +112,9 @@
     <div class="grid-item">
       <TagBarChart />
     </div>
+
     <div class="grid-item">
-      <EpisodeScatterChart />
+      <EpisodeDonutChart />
     </div>
 
     <div class="grid-item">
@@ -114,9 +122,11 @@
     </div>
 
     <div class="grid-item">
-      <RatingBarChart />
+      <RatingLineChart />
     </div>
   </div>
+{:else}
+  {errorMessage}
 {/if}
 
 <style>

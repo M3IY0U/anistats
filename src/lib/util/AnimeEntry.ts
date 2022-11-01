@@ -15,6 +15,7 @@ export class AnimeEntry {
   url: string;
   genres: string[];
   episodes: number;
+  chapters: number;
   stats: Array<{ score: number; amount: number }>;
   tags: Array<{ name: string; rank: number; description: string }>;
   startYear: number;
@@ -26,6 +27,7 @@ export class AnimeEntry {
     url: string,
     genres: string[],
     episodes: number,
+    chapters: number,
     stats: Array<{ score: number; amount: number }>,
     tags: Array<{ name: string; rank: number; description: string }>,
     startYear: number
@@ -36,6 +38,7 @@ export class AnimeEntry {
     this.url = url;
     this.genres = genres;
     this.episodes = episodes;
+    this.chapters = chapters;
     this.stats = stats;
     this.tags = tags;
     this.startYear = startYear;

@@ -4,6 +4,7 @@
   import { createGenreClickLink } from "./util/AnimeEntry";
   import { animeToggle } from "./util/stores";
   import { entries } from "./util/stores";
+  import { BG_COLOR, BORDER_COLOR, FONT_COLOR } from "./util/constants";
 
   Chart.register(...registerables);
 
@@ -28,8 +29,8 @@
         {
           label: " # of genre occurrence",
           data: Array.from(occurrences.values()),
-          backgroundColor: ["rgba(2, 169, 255, 0.5)"],
-          borderColor: ["rgb(255, 255, 255)"],
+          backgroundColor: [BG_COLOR],
+          borderColor: [BORDER_COLOR],
           borderWidth: 2,
         },
       ],
@@ -64,6 +65,18 @@
           },
         },
         responsive: false,
+        scales: {
+          y: {
+            ticks: {
+              color: FONT_COLOR,
+            },
+          },
+          x: {
+            ticks: {
+              color: FONT_COLOR,
+            },
+          },
+        },
       }}
     />
   </div>
