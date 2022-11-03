@@ -29,9 +29,9 @@
   ];
 
   const lbc = (item) => {
-    return ` ${item.formattedValue} entries with ${item.label} ${
-      $animeToggle ? "episodes" : "chapters"
-    }`;
+    return ` ${item.formattedValue} entr${
+      item.formattedValue == "1" ? "y" : "ies"
+    } with ${item.label} ${$animeToggle ? "episodes" : "chapters"}`;
   };
 
   const groupEntries = (isAnime: boolean) => {

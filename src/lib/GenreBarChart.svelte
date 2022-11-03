@@ -12,6 +12,11 @@
   let data: any;
   let bc: Bar;
 
+  const lbc = (item) => {
+    console.log(item);
+    return ` Appears ${item.formattedValue} times`;
+  };
+
   export const updateChart = () => {
     if ($entries.length > 0) {
       occurrences = new Map(
@@ -62,6 +67,11 @@
         plugins: {
           legend: {
             display: false,
+          },
+          tooltip: {
+            callbacks: {
+              label: lbc,
+            },
           },
         },
         responsive: false,

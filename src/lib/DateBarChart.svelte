@@ -12,6 +12,14 @@
   let data: any;
   let bc: Bar;
 
+  const lbc = (item) => {
+    console.log(item);
+
+    return ` ${item.formattedValue} entr${
+      item.formattedValue == "1" ? "y" : "ies"
+    } started this year `;
+  };
+
   export const updateChart = () => {
     if ($entries.length > 0) {
       dates = new Map(
@@ -64,6 +72,11 @@
         plugins: {
           legend: {
             display: false,
+          },
+          tooltip: {
+            callbacks: {
+              label: lbc,
+            },
           },
         },
         responsive: false,

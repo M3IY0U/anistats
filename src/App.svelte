@@ -9,6 +9,7 @@
   import Toggle from "svelte-toggle";
   import { animeToggle, entries } from "./lib/util/stores";
   import DateBarChart from "./lib/DateBarChart.svelte";
+  import OverviewTable from "./lib/OverviewTable.svelte";
 
   let username = "";
   let toggled = true;
@@ -125,6 +126,7 @@
       <RatingLineChart />
     </div>
   </div>
+  <OverviewTable />
 {:else}
   {errorMessage}
 {/if}

@@ -9,6 +9,9 @@ export function createDateClickLink(year: string, isAnime: boolean) {
 }
 
 export class AnimeEntry {
+  id: number;
+  format: string;
+  progress: number;
   status: string;
   title: string;
   image: string;
@@ -21,6 +24,9 @@ export class AnimeEntry {
   startYear: number;
 
   constructor(
+    id: number,
+    format: string,
+    progress: number,
     status: string,
     title: string,
     image: string,
@@ -32,6 +38,9 @@ export class AnimeEntry {
     tags: Array<{ name: string; rank: number; description: string }>,
     startYear: number
   ) {
+    this.id = id;
+    this.format = format;
+    this.progress = progress;
     this.status = status;
     this.title = title;
     this.image = image;

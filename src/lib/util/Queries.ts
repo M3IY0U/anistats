@@ -12,9 +12,13 @@ export class Queries {
     );
     for (const list of result.MediaListCollection.lists) {
       list.entries.forEach((entry: any) => {
+        let progress = entry.progress;
         entry = entry.media;
         entries.push(
           new AnimeEntry(
+            entry.id,
+            entry.format,
+            progress,
             list.name,
             entry.title.romaji,
             entry.coverImage.extraLarge,
@@ -39,8 +43,10 @@ export class Queries {
         lists {
           name
           entries {
-            id
+            progress
             media {
+              id
+              format
               title {
                 romaji
               }
